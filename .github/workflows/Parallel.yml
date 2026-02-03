@@ -1,0 +1,14 @@
+name: GitHub Workflow parallel build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Building frontend..."
+  build-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Building backend..."
