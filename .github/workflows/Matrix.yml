@@ -8,8 +8,9 @@ jobs:
         codev: [14, 15, 16]
     runs-on: ${{matrix.os}}
     steps:
-      - uses: actions/checkout@v5
-        id: step1
+      - name: Run build
+        uses: actions/checkout@v5
         with:
+          id: step1
           code-version: ${{matrix.codev}}
       - run: echo "Running on ${{matrix.os}} for version ${{matrix.codev}}"
