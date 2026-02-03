@@ -4,6 +4,8 @@ name: GitHub Actions Demo
 #   push:
 #     branches:
 #       - main
+on:
+  workflow_dispatch:
 
 jobs:
   job1:
