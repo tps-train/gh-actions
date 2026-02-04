@@ -1,4 +1,4 @@
-name: GitHub Workflow parallel build
+name: JFrog
 
 on:
   workflow_dispatch:
