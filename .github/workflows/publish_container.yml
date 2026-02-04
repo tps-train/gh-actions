@@ -27,7 +27,7 @@ jobs:
         run: docker login -u ${{ secrets.JFROGUSER }} -p ${{ secrets.JFROGTOKEN }} ${{ secrets.JFROGSERVER }}
 
       - name: Tag image
-        run: docker tag busybox trialrl5xsk.jfrog.io/artifactory/dcimages-docker-remote/busybox:latest
+        run: docker tag busybox trialrl5xsk.jfrog.io/dcimages-docker-remote/busybox:latest
       
       - name: Push image
-        run: docker push trialrl5xsk.jfrog.io/artifactory/dcimages-docker-remote/busybox:latest
+        run: docker push trialrl5xsk.jfrog.io/dcimages-docker-remote/busybox:latest
