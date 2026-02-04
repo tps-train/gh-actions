@@ -1,0 +1,33 @@
+name: GitHub Workflow parallel build
+
+on:
+  workflow_dispatch:
+
+defaults:
+run:
+  working-directory: ./docker-jfrog
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish Image
+        - uses: actions/checkout@v4
+      
+      - name: Set up QEMU 🏗️
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx 🐋
+        uses: docker/setup-buildx-action@v1
+
+      - name: Download docker image
+        run: docker pull busybox
+
+      - name: Login to DockerHub Registry
+        run: docker login -u ${{ secrets.JFROGUSER }} -p ${{ secrets.JFROGTOKEN }} ${{ secrets.JFROGSERVER }}
+
+      - name: Tag image
+        run: docker tag busybox registry-1.docker.io:busybox
+      
+      - name: Push image
+        run: docker push busybox
