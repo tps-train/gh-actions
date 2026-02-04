@@ -30,4 +30,4 @@ jobs:
         run: docker tag busybox registry-1.docker.io:busybox
       
       - name: Push image
-        run: docker push busybox
+        run: docker push registry-1.docker.io:busybox
