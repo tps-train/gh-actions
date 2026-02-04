@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
 
 defaults:
-run:
-  working-directory: ./docker-jfrog
+  run:
+    working-directory: ./docker-jfrog
 
 jobs:
   publish:
