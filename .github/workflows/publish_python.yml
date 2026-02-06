@@ -24,7 +24,7 @@ jobs:
           uses: docker/build-push-action@v6
           with:
             context: ./LabFiles/lab-setup
-            file: ./Labfiles/lab-setup/Dockerfile
+            file: ./LabFiles/lab-setup/Dockerfile
             load: true
             tags: sas-devops:${{ github.run_number }}
             outputs: type=docker,dest=${{ runner.temp }}/pyapp.tar
