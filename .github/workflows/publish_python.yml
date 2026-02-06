@@ -35,6 +35,7 @@ jobs:
             path: ${{ runner.temp }}/pyapp.tar
 
     test:
+        needs: build
         runs-on: ubuntu-latest
         steps:
         - name: Download artifact
@@ -58,6 +59,7 @@ jobs:
                 docker stop test-container
 
     publish:
+        needs: test
         runs-on: ubuntu-latest
         steps:
         - name: Download artifact
