@@ -55,7 +55,7 @@ jobs:
                 # Wait a moment for the container to start
                 sleep 10
                 # Test the application endpoint (example)
-                (curl -f localhost:3000/health | grep OK) || exit 1
+                (curl -f localhost:8000/health | grep OK) || exit 1
                 # Stop and remove the test container
                 docker stop test-container
 
