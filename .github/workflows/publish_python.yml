@@ -1,0 +1,77 @@
+name: JFrog
+
+on:
+    workflow_dispatch:
+
+defaults:
+    run:
+        working-directory: ./LabFiles/lab-setup
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Publish Image
+          uses: actions/checkout@v4
+        
+        - name: Set up QEMU 🏗️
+          uses: docker/setup-qemu-action@v1
+
+        - name: Set up Docker Buildx 🐋
+          uses: docker/setup-buildx-action@v1
+
+        - name: Build and Load Image for Testing
+          uses: docker/build-push-action@v6
+          with:
+            context: .
+            load: true
+            tags: trialrl5xsk.jfrog.io/dcimages-docker/sas-devops:${{ GITHUB_JOB }}
+            outputs: type=docker,dest=${{ runner.temp }}/pyapp.tar
+        
+        - name: Upload artifact
+          uses: actions/upload-artifact@v4
+          with:
+            name: pyapp
+            path: ${{ runner.temp }}/pyapp.tar
+
+    test:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Download artifact
+          uses: actions/download-artifact@v4
+          with:
+                name: pyapp
+                path: /tmp
+
+        - name: Load image
+          run: |
+                docker load --input /tmp/pyapp.tar
+
+        - name: Test Container
+          run: |
+                docker run --rm -d --name test-container trialrl5xsk.jfrog.io/dcimages-docker/sas-devops:${{ GITHUB_JOB }}
+                # Wait a moment for the container to start
+                sleep 10
+                # Test the application endpoint (example)
+                (curl -f localhost:3000/health | grep OK) || exit 1
+                # Stop and remove the test container
+                docker stop test-container
+
+    publish:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Download artifact
+          uses: actions/download-artifact@v4
+          with:
+                name: pyapp
+                path: /tmp
+
+        - name: Load image
+          run: |
+                docker load --input /tmp/pyapp.tar
+                
+        - name: Login to DockerHub Registry
+          run: docker login -u ${{ secrets.JFROGUSER }} -p ${{ secrets.JFROGTOKEN }} ${{ secrets.JFROGSERVER }}
+            
+        - name: Push image
+          run: docker push trialrl5xsk.jfrog.io/dcimages-docker/sas-devops:${{ GITHUB_JOB }}
