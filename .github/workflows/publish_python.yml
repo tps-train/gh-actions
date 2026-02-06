@@ -51,7 +51,7 @@ jobs:
 
         - name: Test Container
           run: |
-                docker run --rm -d -p 3000:3000 --name test-container sas-devops:${{ github.run_number }}
+                docker run --rm -d -p 8000:8000 --name test-container sas-devops:${{ github.run_number }}
                 # Wait a moment for the container to start
                 sleep 10
                 # Test the application endpoint (example)
