@@ -25,7 +25,7 @@ jobs:
           with:
             context: .
             load: true
-            tags: trialrl5xsk.jfrog.io/dcimages-docker/sas-devops:${{ GITHUB_RUN_NUMBER }}
+            tags: trialrl5xsk.jfrog.io/dcimages-docker/sas-devops:${{ github.run_number }}
             outputs: type=docker,dest=${{ runner.temp }}/pyapp.tar
         
         - name: Upload artifact
@@ -50,7 +50,7 @@ jobs:
 
         - name: Test Container
           run: |
-                docker run --rm -d --name test-container trialrl5xsk.jfrog.io/dcimages-docker/sas-devops:${{ GITHUB_RUN_NUMBER }}
+                docker run --rm -d --name test-container trialrl5xsk.jfrog.io/dcimages-docker/sas-devops:${{ github.run_number }}
                 # Wait a moment for the container to start
                 sleep 10
                 # Test the application endpoint (example)
@@ -76,4 +76,4 @@ jobs:
           run: docker login -u ${{ secrets.JFROGUSER }} -p ${{ secrets.JFROGTOKEN }} ${{ secrets.JFROGSERVER }}
             
         - name: Push image
-          run: docker push trialrl5xsk.jfrog.io/dcimages-docker/sas-devops:${{ GITHUB_RUN_NUMBER }}
+          run: docker push trialrl5xsk.jfrog.io/dcimages-docker/sas-devops:${{ github.run_number }}
